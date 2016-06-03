@@ -12,28 +12,28 @@
 ```$ awk -F'\t' '{print NF; exit}' msms.txt```
 
 ## Vertica
-###This is more like a two liner. I wanted to find all columns in a vertica database that were in more than one table
+This is more like a two liner. I wanted to find all columns in a vertica database that were in more than one table
 ```$ for line in `vqb -Atc "\d" | grep trapd  | cut -d "|" -f 1,2  | sed 's/|/./' `; do vqb -Atc "\d ${line}"; done > out.txt
 $ perl -pe '%cols = (); while(<>) {@t = split(/\|/, $_); $cols{$t[2]}++;} while(($k, $v) = each (%cols)){ if ($v>1) {print "$k => $v\n";}}' <  out.txt
 ```
 
 ## Postgresql
-###Similar to Vertica (same root: Mike Stonebreaker). Write table record counts to eponymously named files. Note the ‘&’ makes this multithreaded
+### Write table record counts to eponymously named files. 
+Note the ‘&’ makes this multithreaded
 ```$ for tbl in `psql hithub -Atc "\dt go.*" | cut -d\| -f2`; do psql -c "select count(*) from go.${tbl}" hithub  > go_${tbl}_length.csv & done;```
 
-— Dump all tables under “go” schema to csv files
-$ for tbl in `psql hithub -Atc "\dt go.*" | cut -d\| -f2`; do psql -c "COPY go.${tbl} TO STDOUT CSV HEADER" hithub > go_${tbl}.csv & done;
+### Dump all tables under “go” schema to csv files
+```$ for tbl in `psql hithub -Atc "\dt go.*" | cut -d\| -f2`; do psql -c "COPY go.${tbl} TO STDOUT CSV HEADER" hithub > go_${tbl}.csv & done;```
 
--- Print matched pattern
+### Print matched pattern
 Parsing a log file for table names used in SQL UPDATE statements. Grep gets the line and awk naturally tokenizes on whitespace so I print the 2nd element in awk's array. Then sort unique
-$ grep  'UPDATE' log.txt | awk '{print $2}' | sort -u
+```$ grep  'UPDATE' log.txt | awk '{print $2}' | sort -u```
 PDSSD.ADM_LOADED_EXP_ANALYSIS
-
 PDSSD.EXPERIMENT_DIM
 PDSSD.PURE_TO_TREAT_BRIDGE
 
--- print line if regular expression match on specific column
-$ awk -F'\t' '$11~/NONE|NO VALUE|NOT PROVIDED|NOTHING/ {print $0}' clean.txt | wc
+### print line if regular expression match on specific column
+```$ awk -F'\t' '$11~/NONE|NO VALUE|NOT PROVIDED|NOTHING/ {print $0}' clean.txt | wc```
 
 — Prepend text to file
 $ echo -e "to be prepended\n$(cat text.txt)" > text.txt
