@@ -1,15 +1,12 @@
--- I want to see the oracle paths in a larger path
-$ echo ${LD_LIBRARY_PATH}
-/usr/prog/compilers/intel/fort/11.1.069/mkl/lib/em64t:/usr/prog/compilers/intel/fort/11.1.069/lib/intel64:/usr/prog/compilers/intel/cc/11.1.069/lib/intel64:/usr/prog/compilers/intel/cc/11.1.069/ipp/em64t/sharedlib:/usr/prog/compilers/intel/cc/11.1.069/mkl/lib/em64t:/usr/prog/compilers/intel/cc/11.1.069/tbb/intel64/cc4.1.0_libc2.4_kernel2.6.16.21/lib:/usr/prog/openmpi/1.4.1_intel/lib:/usr/prog/python/2.6.6_gnu/lib:/usr/prog/R/3.0.1_intel/lib64/R/lib:/opt/gridengine/lib/lx26-amd64:/usr/prog/python/2.6.6_gnu/lib:/usr/prog/atlas/3.8.3_gnu/lib:/usr/prog/boost/1.42.0_gnu/lib:/usr/prog/fftw/3.1.2_intel/lib:/usr/prog/hdf5/1.8.5p1-intel/lib:/usr/prog/qt/4.7.2_gcc/lib:/usr/prog/vigra/1.8.0/lib:/usr/prog/vtk/5.8.0_gnu/lib/vtk-5.8:/usr/prog/wx/2.8.11.0/lib:/usr/prog/R/3.0.1_intel/lib64/R/lib:/usr/prog/gsl/1.12_intel/lib:/usr/prog/compilers/intel/fort/11.1.069/mkl/lib/em64t:/usr/prog/compilers/intel/fort/11.1.069/lib/intel64:/usr/prog/compilers/intel/cc/11.1.069/lib/intel64:/usr/prog/compilers/intel/cc/11.1.069/ipp/em64t/sharedlib:/usr/prog/compilers/intel/cc/11.1.069/mkl/lib/em64t:/usr/prog/compilers/intel/cc/11.1.069/tbb/intel64/cc4.1.0_libc2.4_kernel2.6.16.21/lib:/opt/gridengine/lib/lx26-amd64:/lib64:/lib:/usr/lib64:/usr/lib:/usr/local/lib:/usr/prog/oracle/11.2.0/oracle/product/11.2.0/client_1/lib
+###I want to see the oracle paths in a larger path
+```$ echo ${LD_LIBRARY_PATH} | perl -pe "s/:/\n/g;" | grep ora
+/usr/prog/oracle/11.2.0/oracle/product/11.2.0/client_1/lib```
 
-$ echo ${LD_LIBRARY_PATH} | perl -pe "s/:/\n/g;" | grep ora
-/usr/prog/oracle/11.2.0/oracle/product/11.2.0/client_1/lib
-
-See installed packages on Unix system
+###See installed packages on Unix system
 $ aptitude search '~i!~M'
 
--- Vertica
-October 2013. This is more like a two liner. I wanted to find all columns in a vertica database that were in more than one table
+## Vertica
+###This is more like a two liner. I wanted to find all columns in a vertica database that were in more than one table
 
 $ for line in `vqb -Atc "\d" | grep trapd  | cut -d "|" -f 1,2  | sed 's/|/./' `; do vqb -Atc "\d ${line}"; done > out.txt
 $ perl -pe '%cols = (); while(<>) {@t = split(/\|/, $_); $cols{$t[2]}++;} while(($k, $v) = each (%cols)){ if ($v>1) {print "$k => $v\n";}}' <  out.txt
@@ -20,7 +17,7 @@ $ head -n15 msms.txt | tail -n14 |cut -f5| perl -ne 'use Scalar::Util qw(looks_l
 -- Count columns in csv
 $ awk -F'\t' '{print NF; exit}' msms.txt
 
-— PostgreSQL
+
 — Similar to Vertica (same root: Mike Stonebreaker)
 — Write table record counts to eponymously named files
 — Note the ‘&’ makes this multithreaded
@@ -170,7 +167,7 @@ select distinct CELL_LINE_TISSUE from tppxml.met_reagent;
 
 
 
-$ sqlplus -s tppxml/<pass>@caomixp @get_atppicl_cell_lines.sql > output.txt
+$ sqlplus -s <schema>/<pass>@<host> @get_atppicl_cell_lines.sql > output.txt
 
 
 
