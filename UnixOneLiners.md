@@ -1,9 +1,9 @@
-###I want to see the oracle paths in a larger path
+###Pull oracle path in a larger path
 ```$ echo ${LD_LIBRARY_PATH} | perl -pe "s/:/\n/g;" | grep ora
 /usr/prog/oracle/11.2.0/oracle/product/11.2.0/client_1/lib```
 
 ###See installed packages on Unix system
-$ aptitude search '~i!~M'
+```$ aptitude search '~i!~M'```
 
 ## Vertica
 ###This is more like a two liner. I wanted to find all columns in a vertica database that were in more than one table
