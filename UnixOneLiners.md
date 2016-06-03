@@ -5,19 +5,17 @@
 ###See installed packages on Unix system
 ```$ aptitude search '~i!~M'```
 
-
-
 ### Guess column datatype (number or text)
-$ head -n15 msms.txt | tail -n14 |cut -f5| perl -ne 'use Scalar::Util qw(looks_like_number); print if looks_like_number($_)' | awk '{s+=1}END{print s}' | perl -ne 'if ($_ == "14") {print "number\n";} else {print "text\n";}'
+```$ head -n15 msms.txt | tail -n14 |cut -f5| perl -ne 'use Scalar::Util qw(looks_like_number); print if looks_like_number($_)' | awk '{s+=1}END{print s}' | perl -ne 'if ($_ == "14") {print "number\n";} else {print "text\n";}'```
 
--- Count columns in csv
-$ awk -F'\t' '{print NF; exit}' msms.txt
+### Count columns in csv
+```$ awk -F'\t' '{print NF; exit}' msms.txt```
 
 ## Vertica
 ###This is more like a two liner. I wanted to find all columns in a vertica database that were in more than one table
+```$ for line in `vqb -Atc "\d" | grep trapd  | cut -d "|" -f 1,2  | sed 's/|/./' `; do vqb -Atc "\d ${line}"; done > out.txt
+$ perl -pe '%cols = (); while(<>) {@t = split(/\|/, $_); $cols{$t[2]}++;} while(($k, $v) = each (%cols)){ if ($v>1) {print "$k => $v\n";}}' <  out.txt
 ```
-$ for line in `vqb -Atc "\d" | grep trapd  | cut -d "|" -f 1,2  | sed 's/|/./' `; do vqb -Atc "\d ${line}"; done > out.txt
-$ perl -pe '%cols = (); while(<>) {@t = split(/\|/, $_); $cols{$t[2]}++;} while(($k, $v) = each (%cols)){ if ($v>1) {print "$k => $v\n";}}' <  out.txt```
 
 ## Postgresql
 ###Similar to Vertica (same root: Mike Stonebreaker). Write table record counts to eponymously named files. Note the ‘&’ makes this multithreaded
