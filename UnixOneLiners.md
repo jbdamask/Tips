@@ -14,7 +14,7 @@
 ## Vertica
 This is more like a two liner. I wanted to find all columns in a vertica database that were in more than one table
 ```
-$ for line in \`vqb -Atc "\d" | grep trapd  | cut -d "|" -f 1,2  | sed 's/|/./' \`; do vqb -Atc "\d ${line}"; done > out.txt
+$ for line in `vqb -Atc "\d" | grep trapd  | cut -d "|" -f 1,2  | sed 's/|/./' `; do vqb -Atc "\d ${line}"; done > out.txt
 $ perl -pe '%cols = (); while(<>) {@t = split(/\|/, $_); $cols{$t[2]}++;} while(($k, $v) = each (%cols)){ if ($v>1) {print "$k => $v\n";}}' <  out.txt
 ```
 
