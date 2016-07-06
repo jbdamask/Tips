@@ -20,7 +20,7 @@ $ perl -pe '%cols = (); while(<>) {@t = split(/\|/, $_); $cols{$t[2]}++;} while(
 
 ## Create select queries for all tables in a schema
 ```
-vqb -Atc '\d metahub.' | cut -d'|' -f2 | uniq | tr '|' '.' | awk '{print "SELECT * FROM " $0}'
+vqb -Atc '\d metahub.' | cut -d'|' -f2 | uniq | tr '|' '.' | awk '{print "SELECT * FROM METAHUB." $0}'
 ```
 
 ## Postgresql
