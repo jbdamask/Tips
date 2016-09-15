@@ -97,14 +97,17 @@ $ for line in `cat ~/tmp/mascot/2014_paths.txt`;
     done;
 
 Note: If the lines in your file contain whitespace the “for” loop will break on all! To ensure it breaks on carriage returns, only, you have to specify what the character is like so:
-$ IFS=$’\n’; for line in `cat ~/tmp/mascot/2014_paths.txt`; do grep -m 1 sequences= /Volumes/d$/Inetpub/wwwroot/ISB/data/SAN/${line}/*.dat >> ~/tmp/mascot/seq_count_2014.txt;
+$ IFS=$'\n'; for line in `cat ~/tmp/mascot/2014_paths.txt`; do grep -m 1 sequences= /Volumes/d$/Inetpub/wwwroot/ISB/data/SAN/${line}/*.dat >> ~/tmp/mascot/seq_count_2014.txt;
 
 grep -m 1 fastafile  /Volumes/d$/Inetpub/wwwroot/ISB/data/SAN/${line}/*.dat >> ~/tmp/mascot/fastafile_2014_with_db.txt;
 done;
 
+Replace value in one column based on values in another
+```awk -F',' 'BEGIN{OFS=","} {if ($7~/P06218/) expr="\"Experimental1\""; else if ($7~/P06219/) expr="\"Experimental2\""; else if ($7~/P06220/) expr="\"Experimental3\""; else expr=$8; print $1,$2,$3,$4,$5,$6,$7,expr,$9,$10,$11,$12,$13,$14,$15,$16,$17,$18,$19,$20,$21,$22,$23,$24,$25,$26,$27,$28}'```
+
 Print only lines for which a particular field isn’t blank
 # In this case my file is tab delimited and I want to make sure column 30 has a value
-$ cat clean.txt | awk '  BEGIN {FS="\t"} $30!=""  {print} ‘
+$ cat clean.txt | awk '  BEGIN {FS="\t"} $30!=""  {print} '
 
 Print index and name of column in delimited file
 $ cat foo.txt
